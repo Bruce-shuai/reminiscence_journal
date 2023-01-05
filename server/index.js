@@ -9,16 +9,17 @@ const app = express();
 
 // 中间件  
 /**
- * 路由
- */
-app.use('/posts', postRoutes);
-
-/**
  * limit: 30mb，即限制req body的最大体积为30mb 
  **/
 app.use(bodyParser.json({limit: "30mb", extended: true}));
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors())
+
+/**
+ * 路由，并且这个中间件的位置需要放在app.use(cors())后面来达到解决跨域的问题
+ */
+app.use('/posts', postRoutes);
+
 
 // Mongodb Connect
 const CONNECTION_URL = 'mongodb+srv://jianghaosong:jianghaosong@cluster0.ihfbaaq.mongodb.net/?retryWrites=true&w=majority';
