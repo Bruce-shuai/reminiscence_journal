@@ -22,7 +22,7 @@ app.use('/posts', postRoutes);
 
 
 // Mongodb Connect
-const CONNECTION_URL = 'mongodb+srv://jianghaosong:jianghaosong@cluster0.ihfbaaq.mongodb.net/?retryWrites=true&w=majority';
+const CONNECTION_URL = 'mongodb+srv://wangyihang:wangyihang@cluster0.ihfbaaq.mongodb.net/?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 5001;
 
 // 防止报错
