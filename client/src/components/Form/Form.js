@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
+// redux 操作
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../actions/posts';
 // 将文件转化为base64的组件
 import FileBase from 'react-file-base64';
 
@@ -14,9 +17,18 @@ const Form = () => {
     message: '',
     tags: '',
   })
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    dispatch(createPost(postData));
+    setPostData({
+      creator: '',
+      title: '',
+      message: '',
+      tags: '',
+    })
   }
 
   const clear = () => {
@@ -30,7 +42,7 @@ const Form = () => {
 
   return (
     <Paper className={classes.paper}>
-      {/* noValidate 表示不需要验证表单 autoComplete 表示input框不能被浏览器默认填写 */}
+      {/* noValidate 表示不需要验证表单,例如邮箱input，不会去鉴定是否输入的是邮箱格式 autoComplete 表示input框不能被浏览器默认填写 */}
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <Typography variant="h6">创建一个日志</Typography>
         <TextField 
@@ -52,7 +64,7 @@ const Form = () => {
         <TextField 
           name="message" 
           variant="outlined" 
-          label="标题" 
+          label="内容" 
           fullWidth 
           value={postData.message}
           onChange={(e) => setPostData({ ...postData, message: e.target.value })}
