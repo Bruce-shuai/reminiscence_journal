@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
 // redux 操作
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../actions/posts';
 // 将文件转化为base64的组件
 import FileBase from 'react-file-base64';
 
 import useStyles from './styles';
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
 
   const [postData, setPostData] = useState({
@@ -16,19 +16,25 @@ const Form = () => {
     title: '',
     message: '',
     tags: '',
+    selectedFile: ''
   })
+  const selectedPost = useSelector(state => currentId ? state.posts.find((p) => p._id === currentId) : null)
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (selectedPost) setPostData(selectedPost);
+  }, [selectedPost])
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('--', postData)
+    if (currentId) {
+      dispatch(updatePost(currentId, postData))
+    } else {
+      dispatch(createPost(postData));
+    }
 
-    dispatch(createPost(postData));
-    setPostData({
-      creator: '',
-      title: '',
-      message: '',
-      tags: '',
-    })
   }
 
   const clear = () => {

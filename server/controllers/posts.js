@@ -1,12 +1,11 @@
 // controllers 文件夹是为了让 router 更具有可扩展性
+import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js"
 
 // 对应状态码网址：https://restapitutorial.com/httpstatuscodes.html
 export const getPosts = async (req, res) => {
   try {
     const postMessage = await PostMessage.find();
-
-    console.log(postMessage);
 
     res.status(200).json(postMessage);
   } catch (error) {
@@ -26,4 +25,14 @@ export const createPost = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message:error.message })
   }
+}
+
+export const updatePost = async (req, res) => {
+  const { id: _id } = req.params   // 是截取路由 :id 的信息
+  const post = req.body;
+
+  // 排除无效id页面显示内容的情况
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No post with that id");
+  const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {new: true})
+  res.json(updatePost);
 }
