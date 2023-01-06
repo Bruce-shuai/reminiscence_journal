@@ -50,7 +50,7 @@ const Form = ({ currentId, setCurrentId }) => {
     <Paper className={classes.paper}>
       {/* noValidate 表示不需要验证表单,例如邮箱input，不会去鉴定是否输入的是邮箱格式 autoComplete 表示input框不能被浏览器默认填写 */}
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-        <Typography variant="h6">创建一个日志</Typography>
+        <Typography variant="h6" className={classes.title}>创建一个日志</Typography>
         <TextField 
           name="creator" 
           variant="outlined" 
@@ -81,7 +81,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="标签" 
           fullWidth 
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })}
         />
         <div className={classes.fileInput}>
           <FileBase 
@@ -92,7 +92,7 @@ const Form = ({ currentId, setCurrentId }) => {
         </div>
 
         <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type='submit' fullWidth>确定</Button>
-        <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>清除</Button>
+        <Button className={classes.buttonSubmit} variant="contained" color="secondary" size="large" onClick={clear} fullWidth>清除</Button>
       </form>
     </Paper>
   )

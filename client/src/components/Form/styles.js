@@ -9,6 +9,10 @@ export default makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
   },
+  title: {
+    color: '#4a7349',
+    fontFamily: 'RMXGD'
+  },
   form: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -20,5 +24,6 @@ export default makeStyles((theme) => ({
   },
   buttonSubmit: {
     marginBottom: 10,
+    fontFamily: 'RMXGD'
   },
 }));
