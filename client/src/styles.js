@@ -17,5 +17,14 @@ export default makeStyles(() => ({
     marginLeft: '15px',
     fill:'#4a7349',
     height: '60px',
+    display: "block",
+  },
+  "@media screen and (max-width: 768px)": {
+    image: {
+      display: 'none',
+    },
+    mainContainer: {
+      flexDirection: "column-reverse",
+    }
   },
 }));

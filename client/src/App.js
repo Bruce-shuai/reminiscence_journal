@@ -31,7 +31,7 @@ const App = () => {
       {/* Grow in 组件的出现会有一定的动态效果 */}
       <Grow in>
         <Container>
-          <Grid container justifyContent="space-between" alignItems='stretch' spacing={3}>
+          <Grid container className={classes.mainContainer} justifyContent="space-between" alignItems='stretch' spacing={3}>
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
             </Grid>
