@@ -2,11 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
+import dotenv from 'dotenv'
 import postRoutes from './routes/posts.js';   // node代码路径必须有后缀
 
 const app = express();
-
+dotenv.config();
 // 中间件  
 /**
  * limit: 30mb，即限制req body的最大体积为30mb 
@@ -22,7 +22,6 @@ app.use('/posts', postRoutes);
 
 
 // Mongodb Connect
-const CONNECTION_URL = 'mongodb+srv://wangyihang:wangyihang@cluster0.ihfbaaq.mongodb.net/?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 5001;
 
 // 防止报错
@@ -31,6 +30,6 @@ mongoose.set('strictQuery', true);
 /**
  * useNewUrlParser & useUnifiedTopology 开启是为了使mongoose对弃用的一些内容有兼容性效果
  */
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
   .catch((error) => console.log(error.message))
