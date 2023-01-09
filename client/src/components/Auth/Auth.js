@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { Avatar, Paper, Grid, Typography, Container, Button } from '@material-ui/core';
+import { Avatar, Paper, Grid, Typography, Container, Button, Icon } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import useStyles from './styles';
-
 import Input from './Input';
+
+// Google Auth
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
+
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +26,18 @@ const Auth = () => {
     handleShowPassword(false);
   }
 
+  const googleSuccess = async (res) => {
+
+    try {
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const googleFailure = (error) => {
+    console.log(error);
+  }
+
   const handleShowPassword = () => setShowPassword(prev => !prev)
   return (
     <Container component="main" maxWidth="xs">
@@ -31,7 +46,7 @@ const Auth = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography variant='h5'>{isSignup ? "注册" : "登录"}</Typography>
-        <form classNam={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignup && (
               <>
@@ -45,6 +60,10 @@ const Auth = () => {
           <Button type="submit" fullWidth variant='contained' color="primary" className={classes.submit}>
             {isSignup ? "注册" : "登录"}
           </Button>
+          <GoogleLogin 
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+          />
           <Grid container justifyContent='flex-end'>
             <Grid item>
               <Button onClick={switchMode}>
