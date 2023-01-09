@@ -3,16 +3,24 @@ import { Avatar, Paper, Grid, Typography, Container, Button, Icon } from '@mater
 import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import useStyles from './styles';
 import Input from './Input';
+import { useHistory } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
 
 // Google Auth
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
+// 用来解析 Google登录 返回的token值
+import jwt_decode from "jwt-decode";
 
 const Auth = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
 
   const [isSignup, setIsSignup] = useState(false);
-  
+  const dispatch = useDispatch();
+
+
   const handleSubmit = () => {
 
   }
@@ -27,9 +35,10 @@ const Auth = () => {
   }
 
   const googleSuccess = async (res) => {
-
+    const result = jwt_decode(res?.credential);
     try {
-
+      dispatch({ type: 'AUTH', data: {result} });
+      history.push('/')
     } catch (error) {
       console.error(error);
     }
