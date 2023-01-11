@@ -5,6 +5,8 @@ import { AppBar, Avatar, Toolbar, Typography, Button } from '@material-ui/core';
 import useStyles from './styles';
 import { googleLogout } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
+
 
 const Navbar = () => {
   const classes = useStyles();
@@ -13,7 +15,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-    
+  // 退出登录
   const logout = () => {
     // 这里的dispatch 是为了删除掉浏览器里的localStorage的数据
     dispatch({ type: 'LOGOUT'});
@@ -25,6 +27,12 @@ const Navbar = () => {
   console.log(location);
   useEffect(() => {
     const token = user?.token;
+
+    // 检测token是否过期
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
     setUser(JSON.parse(localStorage.getItem('profile')))
   }, [location])
   return (

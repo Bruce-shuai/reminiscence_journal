@@ -1,9 +1,20 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5001/posts';
+// 创建一个axios实例
+const API = axios.create({ baseURL: 'http://localhost:5001' });
+// 请求拦截器，在所有请求进入回调之前，会先执行拦截器的内容
+API.interceptors.request.use((req) => {
+  req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
 
-export const fetchPosts = () => axios.get(url);
-export const createPost = (newPost) => axios.post(url, newPost);
-export const updatedPost = (id, updatedPost) => axios.patch(`${url}/${id}`, updatedPost);
-export const deletePost = (id) => axios.delete(`${url}/${id}`);
-export const likePost = (id) => axios.patch(`${url}/${id}/likePost`);
+  return req;
+})
+// 用户
+export const signIn = (formData) => API.post('/user/signIn', formData);
+export const signUp = (formData) => API.post('/user/signUp', formData);
+
+// 日志相关
+export const fetchPosts = () => API.get('/posts');
+export const createPost = (newPost) => API.post('/posts', newPost);
+export const updatedPost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const likePost = (id) => API.patch(`/posts/${id}/likePost`);

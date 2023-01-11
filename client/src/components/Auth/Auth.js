@@ -4,34 +4,51 @@ import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import useStyles from './styles';
 import Input from './Input';
 import { useHistory } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
+import {signUp, signIn} from '../../actions/auth';
 
 // Google Auth
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 // 用来解析 Google登录 返回的token值
 import jwt_decode from "jwt-decode";
 
+// 放在这里就不会被重复渲染了吗
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+}
+console.log('测试一下是否会被重复渲染')
 const Auth = () => {
   const classes = useStyles();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
 
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    // 在react中的form提交基本都要写这个e.preventDefault这就可以避免页面重新加载
+    e.preventDefault();
 
+    if (isSignup) {
+      dispatch(signUp(formData, history))
+    } else {
+      dispatch(signIn(formData, history))
+    }
   }
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    // 这里的e.target.name 充分利用了input的属性
+    setFormData({...formData, [e.target.name]: e.target.value})
   }
 
   const switchMode = () => {
     setIsSignup(prev => !prev);
-    handleShowPassword(false);
+    setShowPassword(false);
   }
 
   const googleSuccess = async (res) => {

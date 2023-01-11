@@ -10,9 +10,8 @@ import FileBase from 'react-file-base64';
 import useStyles from './styles';
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
-
+  const user = JSON.parse(localStorage.getItem('profile'));
   const [postData, setPostData] = useState({
-    creator: '',
     title: '',
     message: '',
     tags: '',
@@ -24,26 +23,37 @@ const Form = ({ currentId, setCurrentId }) => {
   useEffect(() => {
     if (selectedPost) setPostData(selectedPost);
   }, [selectedPost])
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('--', postData)
-    if (currentId) {
-      dispatch(updatePost(currentId, postData))
-    } else {
-      dispatch(createPost(postData));
-    }
-
-  }
-
+  
   const clear = () => {
+    setCurrentId(0);
     setPostData({
-      creator: '',
       title: '',
       message: '',
       tags: '',
+      selectedFile: ''
     })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (currentId === 0) {
+      dispatch(createPost({...postData, name: user?.result?.name}));
+      clear();
+    } else {
+      dispatch(updatePost(currentId, {...postData, name: user?.result?.name}));
+      clear();
+    }
+  }
+
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center" className={classes.unSignIn}>
+          请先登录~
+        </Typography>
+      </Paper>
+    )
   }
 
   return (
@@ -51,14 +61,6 @@ const Form = ({ currentId, setCurrentId }) => {
       {/* noValidate 表示不需要验证表单,例如邮箱input，不会去鉴定是否输入的是邮箱格式 autoComplete 表示input框不能被浏览器默认填写 */}
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <Typography variant="h6" className={classes.title}>创建一个日志</Typography>
-        <TextField 
-          name="creator" 
-          variant="outlined" 
-          label="创作者" 
-          fullWidth 
-          value={postData.creator}
-          onChange={(e) => setPostData({ ...postData, creator: e.target.value })}
-        />
         <TextField 
           name="title" 
           variant="outlined" 

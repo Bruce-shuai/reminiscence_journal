@@ -8,10 +8,17 @@ export default makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    minHeight: "100px",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '10px',
+  },
+  unSignIn: {
+    fontFamily: 'RMXGD',
   },
   title: {
     color: '#4a7349',
-    fontFamily: 'RMXGD'
   },
   form: {
     display: 'flex',
