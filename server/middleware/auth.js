@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 // 点击提交按钮 => auth middleware 进行鉴权 => 鉴权成功就进入controller
 
 const auth = async (req, res, next) => {
+  console.log('middleware info', req)
+
   try {
     const token = req.headers.authorization.split(" ")[1];
     const isCustomAuth = token.length < 500;

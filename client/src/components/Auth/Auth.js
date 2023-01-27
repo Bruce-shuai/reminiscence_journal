@@ -19,7 +19,6 @@ const initialState = {
   password: '',
   confirmPassword: ''
 }
-console.log('测试一下是否会被重复渲染')
 const Auth = () => {
   const classes = useStyles();
   const history = useHistory();

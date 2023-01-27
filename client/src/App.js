@@ -10,7 +10,6 @@ import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
 
 const App = () => {
-  console.log(process.env.REACT_APP_GOOGLE_API_CLIENT_ID);
   return (
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}>
       <BrowserRouter>
