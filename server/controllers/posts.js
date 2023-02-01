@@ -4,10 +4,31 @@ import PostMessage from "../models/postMessage.js"
 
 // 对应状态码网址：https://restapitutorial.com/httpstatuscodes.html
 export const getPosts = async (req, res) => {
+  const { page } = req.query;
+  
   try {
-    const postMessage = await PostMessage.find();
+    const LIMIT = 8;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await PostMessage.countDocuments({});
 
-    res.status(200).json(postMessage);
+    const posts = await PostMessage.find().sort({ _id: 1 }).limit(LIMIT).skip(startIndex);
+
+    res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
+// QUERY -> /posts?page=1 -> page = 1
+// PARAMS -> /posts/123 -> id = 123
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+  try {
+    const title = new RegExp(searchQuery, 'i');
+
+    const posts = await PostMessage.find({ $or: [{title}, {tags: {$in: tags.split(',')}}] });
+
+    res.json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message })
   }

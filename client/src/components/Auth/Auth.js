@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, Paper, Grid, Typography, Container, Button, Icon } from '@material-ui/core';
+import { Avatar, Paper, Grid, Typography, Container, Button } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import useStyles from './styles';
 import Input from './Input';

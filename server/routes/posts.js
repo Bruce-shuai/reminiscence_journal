@@ -1,11 +1,12 @@
 import express from 'express';
-import { getPosts, createPost, updatePost, deletePost, likePost } from '../controllers/posts.js';
+import { getPostsBySearch, getPosts, createPost, updatePost, deletePost, likePost } from '../controllers/posts.js';
 import auth from '../middleware/auth.js';
 
 
 const router = express.Router();
 
 router.get('/', getPosts);
+router.get('/search', getPostsBySearch);
 // 增删改日志都需要先鉴权，鉴权就用到了中间件了~
 // 创建日志
 router.post('/', auth, createPost);

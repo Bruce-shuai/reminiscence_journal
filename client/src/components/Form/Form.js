@@ -50,14 +50,14 @@ const Form = ({ currentId, setCurrentId }) => {
     return (
       <Paper className={classes.paper}>
         <Typography variant="h6" align="center" className={classes.unSignIn}>
-          请先登录~
+          请先登录可进行更多操作~
         </Typography>
       </Paper>
     )
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       {/* noValidate 表示不需要验证表单,例如邮箱input，不会去鉴定是否输入的是邮箱格式 autoComplete 表示input框不能被浏览器默认填写 */}
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <Typography variant="h6" className={classes.title}>创建一个日志</Typography>

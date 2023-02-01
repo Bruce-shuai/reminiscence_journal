@@ -13,8 +13,12 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
+  // 注意：useState的执行顺序是在render之前的
+  /**
+   * user info解释：https://stackoverflow.com/questions/54765557/how-are-jti-client-secret-and-exp-used-to-validate-the-id-token 
+   */
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  console.log('user', user)
   // 退出登录
   const logout = () => {
     // 这里的dispatch 是为了删除掉浏览器里的localStorage的数据
@@ -33,13 +37,13 @@ const Navbar = () => {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
     setUser(JSON.parse(localStorage.getItem('profile')))
-  }, [location])
+  }, [location, user?.token])
   return (
     <AppBar className={classes.appBar} position='static' color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography component={Link} to="/" className={classes.heading} variant='h2' align="center">我的疫情校园时光</Typography>
+      <Link to="/" className={classes.brandContainer}>
+        <Typography className={classes.heading} variant='h2' align="center">我的疫情校园时光</Typography>
         <JournalImg className={classes.image} />
-      </div>
+      </Link>
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>

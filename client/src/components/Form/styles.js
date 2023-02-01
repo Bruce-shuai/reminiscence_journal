@@ -8,7 +8,6 @@ export default makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    minHeight: "100px",
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
