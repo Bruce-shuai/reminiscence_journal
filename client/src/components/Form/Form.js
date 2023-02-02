@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 // redux 操作
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +18,9 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: '',
     selectedFile: ''
   })
-  const selectedPost = useSelector(state => currentId ? state.posts.find((p) => p._id === currentId) : null)
+  const selectedPost = useSelector(state => currentId ? state.posts.posts.find((p) => p._id === currentId) : null)
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (selectedPost) setPostData(selectedPost);
@@ -38,7 +40,7 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost({...postData, name: user?.result?.name}));
+      dispatch(createPost({...postData, name: user?.result?.name}, history));
       clear();
     } else {
       dispatch(updatePost(currentId, {...postData, name: user?.result?.name}));
