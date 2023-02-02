@@ -1,6 +1,6 @@
 import * as api from '../api';
 import { LIKE, UPDATE, DELETE, CREATE, FETCH_ALL, FETCH_POST, FETCH_BY_SEARCH, START_LOADING
-, END_LOADING } from '../constants/actionTypes';
+, END_LOADING, COMMENT } from '../constants/actionTypes';
 // Action Creators: which are functions that return actions
 // 异步请求需要使用redux-thunk 
 
@@ -79,3 +79,13 @@ export const likePost = (id) => async (dispatch) => {
     console.log(error);
   }
 } 
+
+export const commentPost = (value, id) => async (dispatch) => {
+  try {
+    const {data} = await api.comment(value, id);
+    dispatch({type: COMMENT, payload: data});
+    return data.comments;
+  } catch (error) {
+    console.log(error);
+  }
+}

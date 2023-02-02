@@ -11,6 +11,10 @@ const postSchema = mongoose.Schema({
     type: [String],   // 存放用户id
     default: []
   },
+  comments: {
+    type: [String],
+    default: []
+  },
   createdAt: {
     type: Date,
     default: new Date()

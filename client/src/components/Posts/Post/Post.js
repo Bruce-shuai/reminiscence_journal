@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
@@ -17,14 +17,28 @@ const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
+  const [likes, setLikes] = useState(post?.likes);
+
+  const userId = user?.result?.googleId || user?.result?._id;
+  const hasLikedPost = post.likes.find(like => like === userId);
+
+  const handleLikeClick = async () => {
+    dispatch(likePost(post._id)); // 这里不能使用await，避免同步执行代码
+
+    if (hasLikedPost) {
+      setLikes(post.likes.filter(id => id !== userId))
+    } else {
+      setLikes([...post.likes, userId]);
+    }
+  }
 
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find(like => like === (user?.result?.googleId || user?.result?._id)) 
+    if (likes.length > 0) {
+      return hasLikedPost
         ? (
-          <><ThumbUpAltIcon fontSize='small' />&nbsp;{post.likes.length}</>
+          <><ThumbUpAltIcon fontSize='small' />&nbsp;{likes.length}</>
         ) : (
-          <><ThumbUpAltOutlined />&nbsp;{post.likes.length}</>
+          <><ThumbUpAltOutlined />&nbsp;{likes.length}</>
         )
     }
 
@@ -66,7 +80,7 @@ const Post = ({ post, setCurrentId }) => {
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" disabled={!user?.result} onClick={() => {dispatch(likePost(post._id))}}>
+        <Button size="small" color="primary" disabled={!user?.result} onClick={() => {handleLikeClick}}>
           <Likes />
         </Button>
 
