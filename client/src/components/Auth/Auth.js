@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import {signUp, signIn} from '../../actions/auth';
 
 // Google Auth
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 // 用来解析 Google登录 返回的token值
 import jwt_decode from "jwt-decode";
 

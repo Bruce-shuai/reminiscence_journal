@@ -18,7 +18,6 @@ const Navbar = () => {
    * user info解释：https://stackoverflow.com/questions/54765557/how-are-jti-client-secret-and-exp-used-to-validate-the-id-token 
    */
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-  console.log('user', user)
   // 退出登录
   const logout = () => {
     // 这里的dispatch 是为了删除掉浏览器里的localStorage的数据

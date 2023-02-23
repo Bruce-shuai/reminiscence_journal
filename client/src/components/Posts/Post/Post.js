@@ -80,7 +80,7 @@ const Post = ({ post, setCurrentId }) => {
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" disabled={!user?.result} onClick={() => {handleLikeClick}}>
+        <Button size="small" color="primary" disabled={!user?.result} onClick={() => {(handleLikeClick())}}>
           <Likes />
         </Button>
 

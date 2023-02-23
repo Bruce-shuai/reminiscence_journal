@@ -21,7 +21,7 @@ const PostDetails = () => {
 
   useEffect(() => {
     dispatch(getPost(id));
-  }, [id]);
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (post) {
@@ -29,7 +29,7 @@ const PostDetails = () => {
         getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
       );
     }
-  }, [post]);
+  }, [post, dispatch]);
 
   if (!post) return null;
 
@@ -69,7 +69,7 @@ const PostDetails = () => {
         </Typography>
         <Divider style={{ margin: "20px 0" }} />
         <Typography variant="body1">
-          <strong>Realtime Chat - coming soon!</strong>
+          <strong>实时聊天，待开发...</strong>
         </Typography>
         <Divider style={{ margin: "20px 0" }} />
         <CommentSection post={post} />
@@ -111,7 +111,7 @@ const PostDetails = () => {
                   <Typography gutterBottom variant="subtitle1">
                     Likes: {likes.length}
                   </Typography>
-                  <img src={selectedFile} width="200px" />
+                  <img src={selectedFile} width="200px" alt="selected-file" />
                 </div>
               )
             )}

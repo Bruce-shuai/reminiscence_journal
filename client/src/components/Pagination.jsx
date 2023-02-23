@@ -13,13 +13,12 @@ const Paginate = ({ page }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("xxx", page);
     if (page) dispatch(getPosts(page));
-  }, [page]);
+  }, [page, dispatch]);
 
   return (
     <Pagination
-      className={{ ul: classes.ul }}
+      className={classes.ul}
       count={numberOfPages}
       page={Number(page) || 1}
       variant="outlined"
