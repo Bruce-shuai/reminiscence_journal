@@ -5,25 +5,25 @@ import User from '../models/user.js';
 
 export const signIn = async (req, res) => {
   // 在请求体中获取登录信息
-   const { email, password } = req.body;
+  const { email, password } = req.body;
+  
+  try {
+   // 验证用户是否存在
+   const existingUser = await User.findOne({ email });
+   if (!existingUser) return res.status(404).json({ message: "用户不存在！"});
 
-   try {
-    // 验证用户是否存在
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) return res.status(404).json({ message: "用户不存在！"});
+   // 验证密码是否正确
+   const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
-    // 验证密码是否正确
-    const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+   if (!isPasswordCorrect) return res.status(400).json({ message: "无效凭据！"});
 
-    if (!isPasswordCorrect) return res.status(400).json({ message: "无效凭据！"});
-
-    // 将用户信息token化
-    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', {expiresIn: '1h'});
-
-    res.status(200).json({ result: existingUser, token });
-   } catch (error) {
-    res.status(500).json({ message: '服务器出现一些错误'});
-   }
+   // 将用户信息token化
+   const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', {expiresIn: '1h'});
+   console.log('token', token)
+   res.status(200).json({ result: existingUser, token });
+  } catch (error) {
+   res.status(500).json({ message: '服务器出现一些错误'});
+  }
 }
 
 export const signUp = async (req, res) => {

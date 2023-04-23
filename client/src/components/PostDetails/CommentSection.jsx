@@ -1,15 +1,15 @@
-import React, { useState, useRef } from "react";
-import { Typography, TextField, Button } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from 'react';
+import { Typography, TextField, Button } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
-import useStyles from "./styles";
-import { commentPost } from "../../actions/posts";
+import useStyles from './styles';
+import { commentPost } from '../../actions/posts';
 const CommentSection = ({ post }) => {
   const classes = useStyles();
   const [comments, setComments] = useState(post?.comments);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = JSON.parse(localStorage.getItem('profile'));
   const commentsRef = useRef();
 
   const handleClick = async () => {
@@ -17,10 +17,10 @@ const CommentSection = ({ post }) => {
 
     const newComments = await dispatch(commentPost(finalComment, post._id));
     setComments(newComments);
-    setComment("");
-    commentsRef.current.scrollIntoView({ behavior: "smooth" });
+    setComment('');
+    commentsRef.current.scrollIntoView({ behavior: 'smooth' });
   };
-
+  console.log('user', user?.result?.name);
   return (
     <div>
       <div className={classes.commentsOuterContainer}>
@@ -28,22 +28,22 @@ const CommentSection = ({ post }) => {
           <Typography gutterBottom variant="h6">
             评论：
           </Typography>
-          {comments.map((c, i) => (
+          {comments?.map((c, i) => (
             <Typography key={i} gutterBottom variant="subtitle1">
-              <strong>{c.split(": ")[0]}</strong>
-              {c.split(":")[1]}
+              <strong>{c.split(': ')[0]}</strong>
+              {c.split(':')[1]}
             </Typography>
           ))}
           <div ref={commentsRef} />
         </div>
         {user?.result?.name && (
-          <div style={{ width: "70%" }}>
+          <div style={{ width: '70%' }}>
             <Typography gutterBottom variant="h6">
               发表评论
             </Typography>
             <TextField
               fullWidth
-              rows={4}
+              minRows={4}
               variant="outlined"
               label="Comment"
               multiline
@@ -51,7 +51,7 @@ const CommentSection = ({ post }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             <Button
-              style={{ marginTop: "10px" }}
+              style={{ marginTop: '10px' }}
               fullWidth
               disabled={!comment}
               variant="contained"

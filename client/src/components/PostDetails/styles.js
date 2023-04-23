@@ -6,10 +6,14 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
     maxHeight: '600px',
-
+    [theme.breakpoints.down('sm')]: {
+      maxHeight: '300px',
+    },
   },
   card: {
     display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'rgba(205, 250, 200, 0.8)',
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
@@ -34,7 +38,12 @@ export default makeStyles((theme) => ({
     },
   },
   loadingPaper: {
-    display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+    borderRadius: '15px',
+    height: '39vh',
   },
   commentsOuterContainer: {
     display: 'flex',
@@ -42,7 +51,7 @@ export default makeStyles((theme) => ({
   },
   commentsInnerContainer: {
     height: '200px',
-    overflow: 'auto',
-    marginRight: '30px'
-  }
+    overflowY: 'auto',
+    marginRight: '30px',
+  },
 }));

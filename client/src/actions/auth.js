@@ -17,8 +17,9 @@ export const signIn = (formData, history) => async (dispatch) => {
 export const signUp = (formData, history) => async (dispatch) => {
   try {
     // 用户注册
+    console.log('formData', formData)
     const { data } = await api.signUp(formData);
-
+    console.log('xxx', data)
     dispatch({type: AUTH, data});
     // 返回到首页
     history.push('/')

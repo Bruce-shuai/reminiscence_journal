@@ -1,19 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   Paper,
   Typography,
   CircularProgress,
   Divider,
-} from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-import { useParams, useHistory } from "react-router-dom";
+} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import { useParams, useHistory } from 'react-router-dom';
 
-import useStyles from "./styles";
-import { getPost, getPostsBySearch } from "../../actions/posts";
-import CommentSection from "./CommentSection";
+import useStyles from './styles';
+import { getPost, getPostsBySearch } from '../../actions/posts';
+import CommentSection from './CommentSection';
 const PostDetails = () => {
-  const { post, posts, isLoading } = useSelector((state) => state.posts);
+  const { post, posts, isLoading } = useSelector((state) => {
+    return state.posts;
+  });
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
@@ -26,7 +28,7 @@ const PostDetails = () => {
   useEffect(() => {
     if (post) {
       dispatch(
-        getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
+        getPostsBySearch({ search: 'none', tags: post?.tags?.join(',') })
       );
     }
   }, [post, dispatch]);
@@ -58,44 +60,42 @@ const PostDetails = () => {
           color="textSecondary"
           component="h2"
         >
-          {post.tags.map((tag) => `#${tag} `)}
+          {post?.tags?.map((tag) => `#${tag} `)}
         </Typography>
         <Typography gutterBottom variant="body1" component="p">
           {post.message}
         </Typography>
-        <Typography variant="h6">Created by: {post.name}</Typography>
+        <Typography variant="h6">作者: {post.name}</Typography>
         <Typography variant="body1">
           {moment(post.createdAt).fromNow()}
         </Typography>
-        <Divider style={{ margin: "20px 0" }} />
-        <Typography variant="body1">
-          <strong>实时聊天，待开发...</strong>
-        </Typography>
-        <Divider style={{ margin: "20px 0" }} />
+        <Divider style={{ margin: '20px 0' }} />
+        <Typography variant="body1"></Typography>
+        <Divider style={{ margin: '20px 0' }} />
         <CommentSection post={post} />
-        <Divider style={{ margin: "20px 0" }} />
+        <Divider style={{ margin: '20px 0' }} />
       </div>
       <div className={classes.imageSection}>
         <img
           className={classes.media}
           src={
             post.selectedFile ||
-            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
           }
           alt={post.title}
         />
       </div>
-      {recommendedPosts.length && (
-        <div className={classes.section}>
-          <Typography gutterBottom variant="h5">
-            你可能想看的日志：
-          </Typography>
-          <Divider />
+      <div className={classes.section}>
+        <Typography gutterBottom variant="h5">
+          你可能想看的日志：
+        </Typography>
+        <Divider />
+        {recommendedPosts.length !== 0 && (
           <div className={classes.recommendedPosts}>
             {recommendedPosts.map(
               ({ title, message, name, likes, selectedFile, _id }) => (
                 <div
-                  style={{ margin: "20px", cursor: "pointer" }}
+                  style={{ margin: '20px', cursor: 'pointer' }}
                   onClick={() => openPost(_id)}
                   key={_id}
                 >
@@ -116,8 +116,8 @@ const PostDetails = () => {
               )
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
